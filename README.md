@@ -1,5 +1,7 @@
 <!--START_SECTION:footer-->
 
+ Stubs = implementação fictícia  
+
  <br />
  <br />
 
