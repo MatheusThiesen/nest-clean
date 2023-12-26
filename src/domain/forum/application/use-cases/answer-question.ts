@@ -22,18 +22,18 @@ type AnswerQuestionUseCaseResponse = Either<
 
 @Injectable()
 export class AnswerQuestionUseCase {
-  constructor(private answerRepository: AnswersRepository) {}
+  constructor(private answersRepository: AnswersRepository) {}
 
   async execute({
     authorId,
     questionId,
-    attachmentsIds,
     content,
+    attachmentsIds,
   }: AnswerQuestionUseCaseRequest): Promise<AnswerQuestionUseCaseResponse> {
     const answer = Answer.create({
       content,
-      questionId: new UniqueEntityID(questionId),
       authorId: new UniqueEntityID(authorId),
+      questionId: new UniqueEntityID(questionId),
     })
 
     const answerAttachments = attachmentsIds.map((attachmentId) => {
@@ -45,7 +45,7 @@ export class AnswerQuestionUseCase {
 
     answer.attachments = new AnswerAttachmentList(answerAttachments)
 
-    this.answerRepository.create(answer)
+    await this.answersRepository.create(answer)
 
     return right({
       answer,
