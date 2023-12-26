@@ -14,7 +14,7 @@ let inMemoryAttachmentsRepository: InMemoryAttachmentsRepository
 let inMemoryStudentsRepository: InMemoryStudentsRepository
 let sut: DeleteQuestionUseCase
 
-describe('Delete Questions', () => {
+describe('Delete Question', () => {
   beforeEach(() => {
     inMemoryQuestionAttachmentsRepository =
       new InMemoryQuestionAttachmentsRepository()
@@ -25,12 +25,15 @@ describe('Delete Questions', () => {
       inMemoryAttachmentsRepository,
       inMemoryStudentsRepository,
     )
+
     sut = new DeleteQuestionUseCase(inMemoryQuestionsRepository)
   })
 
   it('should be able to delete a question', async () => {
     const newQuestion = makeQuestion(
-      { authorId: new UniqueEntityID('author-1') },
+      {
+        authorId: new UniqueEntityID('author-1'),
+      },
       new UniqueEntityID('question-1'),
     )
 

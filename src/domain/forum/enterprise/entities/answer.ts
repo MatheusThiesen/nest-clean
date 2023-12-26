@@ -1,14 +1,14 @@
 import { AggregateRoot } from '@/core/entities/aggregate-root'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
-import { AnswerCreatedEvent } from '../events/answer-created-event'
-import { AnswerAttachmentList } from './answer-attachment-list'
+import { AnswerAttachmentList } from '@/domain/forum/enterprise/entities/answer-attachment-list'
+import { AnswerCreatedEvent } from '@/domain/forum/enterprise/events/answer-created-event'
 
 export interface AnswerProps {
   authorId: UniqueEntityID
   questionId: UniqueEntityID
-  attachments: AnswerAttachmentList
   content: string
+  attachments: AnswerAttachmentList
   createdAt: Date
   updatedAt?: Date | null
 }
@@ -22,21 +22,21 @@ export class Answer extends AggregateRoot<AnswerProps> {
     return this.props.questionId
   }
 
-  get attachments() {
-    return this.props.attachments
-  }
-
-  set attachments(attachments: AnswerAttachmentList) {
-    this.props.attachments = attachments
-    this.touch()
-  }
-
   get content() {
     return this.props.content
   }
 
   set content(content: string) {
     this.props.content = content
+    this.touch()
+  }
+
+  get attachments() {
+    return this.props.attachments
+  }
+
+  set attachments(attachments: AnswerAttachmentList) {
+    this.props.attachments = attachments
     this.touch()
   }
 

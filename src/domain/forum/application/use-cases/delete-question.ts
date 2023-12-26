@@ -5,8 +5,8 @@ import { Injectable } from '@nestjs/common'
 import { QuestionsRepository } from '../repositories/questions-repository'
 
 interface DeleteQuestionUseCaseRequest {
-  questionId: string
   authorId: string
+  questionId: string
 }
 
 type DeleteQuestionUseCaseResponse = Either<
@@ -16,13 +16,13 @@ type DeleteQuestionUseCaseResponse = Either<
 
 @Injectable()
 export class DeleteQuestionUseCase {
-  constructor(private questionRepository: QuestionsRepository) {}
+  constructor(private questionsRepository: QuestionsRepository) {}
 
   async execute({
     questionId,
     authorId,
   }: DeleteQuestionUseCaseRequest): Promise<DeleteQuestionUseCaseResponse> {
-    const question = await this.questionRepository.findById(questionId)
+    const question = await this.questionsRepository.findById(questionId)
 
     if (!question) {
       return left(new ResourceNotFoundError())
@@ -32,7 +32,7 @@ export class DeleteQuestionUseCase {
       return left(new NotAllowedError())
     }
 
-    await this.questionRepository.delete(question)
+    await this.questionsRepository.delete(question)
 
     return right(null)
   }
